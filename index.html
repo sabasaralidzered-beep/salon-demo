@@ -37,7 +37,7 @@ h1,h2,h3{font-family:var(--serif);font-weight:500;line-height:1.1;letter-spacing
 .logo{font:600 26px/1 var(--serif);text-decoration:none;display:flex;gap:10px;align-items:center}
 .nav{display:flex;gap:26px;font-size:15px}
 .nav a{text-decoration:none;opacity:.8}.nav a:hover{opacity:1}
-.top .btn{background:var(--ink);color:var(--bg);min-height:44px;font-size:15px}
+.top .btn{background:var(--ink);color:var(--bg2);min-height:44px;font-size:15px}
 
 .hero{min-height:100svh;display:grid;align-items:end;padding:96px 0 0}
 .hero .hand{position:absolute;left:0;top:13vh;width:min(72vw,1180px);aspect-ratio:1376/768;pointer-events:none}
@@ -48,7 +48,8 @@ h1,h2,h3{font-family:var(--serif);font-weight:500;line-height:1.1;letter-spacing
 .shade h1{font-size:clamp(52px,7.4vw,112px);margin:8px 0 10px}
 .shade p{color:var(--soft);font-size:17px}
 .shade .cta{display:flex;gap:10px;justify-content:flex-end;margin-top:22px;flex-wrap:wrap}
-.shade .btn.main{background:var(--ink);color:var(--bg)}
+.shade .btn.main{background:var(--ink);color:var(--bg2)}
+.lightshade .btn.main,.lightshade .top .btn,.lightshade .picked .btn{color:#FFF6F0!important}
 .shade .btn.ghost{border-color:var(--line);background:rgba(255,255,255,.14)}
 .bottles{position:relative;z-index:3;display:flex;justify-content:center;gap:clamp(6px,2.4vw,40px);padding:0 20px 34px;margin-top:auto}
 .bt{background:none;border:0;width:clamp(74px,9.4vw,138px);display:grid;justify-items:center;gap:8px;transition:transform .45s cubic-bezier(.2,.9,.2,1)}
@@ -69,7 +70,7 @@ h1,h2,h3{font-family:var(--serif);font-weight:500;line-height:1.1;letter-spacing
 .sw button{width:48px;height:48px;border-radius:50%;border:3px solid rgba(255,255,255,.55);box-shadow:0 8px 16px -8px rgba(0,0,0,.4);transition:transform .25s,border-color .25s}
 .sw button[aria-pressed="true"]{transform:scale(1.18);border-color:var(--ink)}
 .picked{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:20px;padding-top:18px;border-top:1px solid var(--line);font-weight:600}
-.picked .btn{background:var(--ink);color:var(--bg)}
+.picked .btn{background:var(--ink);color:var(--bg2)}
 
 /* paper sections */
 .pad{padding:clamp(72px,10vw,130px) 0}
@@ -261,7 +262,7 @@ footer{background:var(--text);color:#A89398;font-size:14px;padding:26px 0 96px;b
     if (i === cur) { if (scroll) $('#hero').scrollIntoView({behavior:'smooth'}); return; }
     cur = i; const s = SHADES[i];
     root.setProperty('--bg', s.bg); root.setProperty('--bg2', s.bg2); root.setProperty('--polish', s.p);
-    root.setProperty('--ink', s.ink); root.setProperty('--soft', hexa(s.ink, .68)); root.setProperty('--line', hexa(s.ink, .2));
+    root.setProperty('--ink', s.ink); document.getElementById('stage').classList.toggle('lightshade', s.ink.toLowerCase() < '#8'); root.setProperty('--soft', hexa(s.ink, .68)); root.setProperty('--line', hexa(s.ink, .2));
     [hand, top2].forEach(el => [...el.children].forEach((im, k) => im.classList.toggle('on', k === i)));
     document.querySelectorAll('[data-i]').forEach(b => b.setAttribute('aria-pressed', +b.dataset.i === i));
     ['#pname', '#fname', '#mname'].forEach(q => $(q).textContent = s.n);
