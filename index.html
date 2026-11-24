@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="ka">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<!-- დემო: გამოგონილი ფრჩხილის სტუდია „ფერი“. სალონებისთვის საჩვენებელი ნიმუში. ფოტოები AI-ით არის გენერირებული, ფასები სადემონსტრაციოა. -->
+<title>ფერი | ფრჩხილის სტუდია თბილისში (დემო)</title>
+<meta name="description" content="აირჩიე ფერი და ნახე ხელზე, სანამ ჩაეწერები. მანიკური, გელ-ლაქი, პედიკური. სადემონსტრაციო საიტი.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@300;400;500;600;700&family=Noto+Serif+Georgian:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F58467; --bg2:#EE4E3A; --polish:#EE4E3A; --ink:#2A0E0A; --soft:rgba(42,14,10,.62); --line:rgba(42,14,10,.18);
+  --paper:#FBF7F3; --text:#2B1B1F; --muted:#7A6468; --rule:rgba(43,27,31,.12);
+  --sans:"Noto Sans Georgian",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --serif:"Noto Serif Georgian",Georgia,serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;overflow-x:clip}
+body{font-family:var(--sans);color:var(--text);background:var(--paper);line-height:1.6;font-size:17px}
+img{display:block;max-width:100%}
+a{color:inherit}
+button{font:inherit;color:inherit;cursor:pointer}
+.wrap{width:min(1240px,100% - 40px);margin-inline:auto}
+h1,h2,h3{font-family:var(--serif);font-weight:500;line-height:1.1;letter-spacing:-.01em;text-wrap:balance}
+.demo{display:inline-block;font:600 11px/1 var(--sans);letter-spacing:.06em;padding:5px 8px;border-radius:999px;background:rgba(255,255,255,.75);color:#5A4300;vertical-align:middle;white-space:nowrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 24px;border-radius:999px;font:600 16px/1 var(--sans);text-decoration:none;border:1.5px solid transparent;transition:transform .2s,background .3s,color .3s}
+.btn:hover{transform:translateY(-2px)}
+:focus-visible{outline:3px solid currentColor;outline-offset:3px}
+
+/* stage: everything that follows the chosen shade */
+.stage{background:radial-gradient(120% 90% at 78% 18%,var(--bg),var(--bg2));color:var(--ink);transition:background .7s,color .5s;position:relative;overflow:hidden}
+.top{position:absolute;inset:0 0 auto;z-index:5}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;height:76px;gap:16px}
+.logo{font:600 26px/1 var(--serif);text-decoration:none;display:flex;gap:10px;align-items:center}
+.nav{display:flex;gap:26px;font-size:15px}
+.nav a{text-decoration:none;opacity:.8}.nav a:hover{opacity:1}
+.top .btn{background:var(--ink);color:var(--bg);min-height:44px;font-size:15px}
+
+.hero{min-height:100svh;display:grid;align-items:end;padding:96px 0 0}
+.hero .hand{position:absolute;left:0;top:13vh;width:min(72vw,1180px);aspect-ratio:1376/768;pointer-events:none}
+.hand img,.tophand img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;transition:opacity .55s;filter:drop-shadow(0 34px 34px rgba(40,10,20,.3))}
+.hand img.on,.tophand img.on{opacity:1}
+.shade{position:absolute;right:max(20px,calc((100vw - 1240px)/2));top:15vh;text-align:right;z-index:3;max-width:420px}
+.shade .k{font:600 12px/1.4 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--soft)}
+.shade h1{font-size:clamp(52px,7.4vw,112px);margin:8px 0 10px}
+.shade p{color:var(--soft);font-size:17px}
+.shade .cta{display:flex;gap:10px;justify-content:flex-end;margin-top:22px;flex-wrap:wrap}
+.shade .btn.main{background:var(--ink);color:var(--bg)}
+.shade .btn.ghost{border-color:var(--line);background:rgba(255,255,255,.14)}
+.bottles{position:relative;z-index:3;display:flex;justify-content:center;gap:clamp(6px,2.4vw,40px);padding:0 20px 34px;margin-top:auto}
+.bt{background:none;border:0;width:clamp(74px,9.4vw,138px);display:grid;justify-items:center;gap:8px;transition:transform .45s cubic-bezier(.2,.9,.2,1)}
+.bt img{width:100%;height:auto;filter:drop-shadow(0 22px 18px rgba(40,10,20,.28));transition:filter .4s}
+.bt span{font:600 13px/1.2 var(--sans);opacity:.7;transition:opacity .3s}
+.bt:hover{transform:translateY(-10px)}
+.bt[aria-pressed="true"]{transform:translateY(-26px) scale(1.08)}
+.bt[aria-pressed="true"] span{opacity:1}
+.bt[aria-pressed="true"] img{filter:drop-shadow(0 34px 22px rgba(40,10,20,.36))}
+
+/* second view */
+.view2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:40px;min-height:92svh;padding:60px 0}
+.tophand{position:relative;width:min(100%,520px);aspect-ratio:896/1200;justify-self:center}
+.panel{background:rgba(255,255,255,.2);border:1px solid var(--line);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-radius:28px;padding:30px;max-width:460px}
+.panel h2{font-size:clamp(30px,3.4vw,46px);margin-bottom:10px}
+.panel p{color:var(--soft)}
+.sw{display:flex;gap:12px;margin:24px 0 8px;flex-wrap:wrap}
+.sw button{width:48px;height:48px;border-radius:50%;border:3px solid rgba(255,255,255,.55);box-shadow:0 8px 16px -8px rgba(0,0,0,.4);transition:transform .25s,border-color .25s}
+.sw button[aria-pressed="true"]{transform:scale(1.18);border-color:var(--ink)}
+.picked{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:20px;padding-top:18px;border-top:1px solid var(--line);font-weight:600}
+.picked .btn{background:var(--ink);color:var(--bg)}
+
+/* paper sections */
+.pad{padding:clamp(72px,10vw,130px) 0}
+.label{font:600 12px/1.4 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:#B5122F}
+.head{max-width:760px;margin-bottom:44px}
+.head h2{font-size:clamp(32px,4.4vw,56px);margin-top:12px}
+.head p{color:var(--muted);margin-top:14px}
+.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.tile{border:0;border-radius:26px;aspect-ratio:1/1.08;position:relative;overflow:hidden;text-align:left;padding:22px;display:flex;flex-direction:column;justify-content:flex-end;transition:transform .35s}
+.tile:hover{transform:translateY(-6px)}
+.tile img{position:absolute;right:8%;top:10%;height:66%;width:auto;filter:drop-shadow(0 26px 20px rgba(40,10,20,.3));transition:transform .5s}
+.tile:hover img{transform:rotate(-6deg) translateY(-8px)}
+.tile b{font:500 26px/1.1 var(--serif);position:relative}
+.tile small{font-size:14px;opacity:.75;position:relative}
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;counter-reset:s}
+.step{border-top:1px solid var(--rule);padding-top:22px}
+.step::before{counter-increment:s;content:"0" counter(s);font:500 54px/1 var(--serif);color:transparent;-webkit-text-stroke:1.3px #B5122F;display:block;margin-bottom:14px}
+.step p{color:var(--muted);margin-top:8px}
+.price{border-top:1px solid var(--rule)}
+.price div{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:baseline;padding:20px 0;border-bottom:1px solid var(--rule)}
+.price b{font:500 22px/1.2 var(--serif)}
+.price span{display:block;color:var(--muted);font-size:15px;margin-top:4px}
+.price i{font:500 22px/1 var(--serif);font-style:normal;white-space:nowrap}
+.book{background:var(--text);color:var(--paper)}
+.book .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:48px;align-items:center}
+.book h2{font-size:clamp(32px,4.2vw,54px)}
+.book p{color:#C9B8BC;margin-top:14px}
+form{display:grid;gap:14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:26px;padding:26px}
+label{display:grid;gap:6px;font-size:14px;color:#E7DBDD}
+input,select{min-height:48px;width:100%;min-width:0;border-radius:12px;border:1px solid rgba(255,255,255,.2);background:rgba(0,0,0,.25);color:var(--paper);padding:0 14px;font:inherit}
+.row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.chosen{display:flex;align-items:center;gap:10px;font-size:15px}
+.chosen i{width:22px;height:22px;border-radius:50%;background:var(--polish);border:2px solid rgba(255,255,255,.6);transition:background .5s}
+form .btn{background:var(--paper);color:var(--text)}
+.done{display:none;color:#F7B7A6;font-size:14px}
+form.sent .done{display:block}
+footer{background:var(--text);color:#A89398;font-size:14px;padding:26px 0 96px;border-top:1px solid rgba(255,255,255,.1)}
+.mbar{position:fixed;left:0;right:0;bottom:0;z-index:30;display:none;gap:12px;align-items:center;justify-content:space-between;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:rgba(43,27,31,.95);color:var(--paper)}
+.mbar .c{display:flex;align-items:center;gap:10px;font-weight:600;min-width:0}
+.mbar .c i{flex:none;width:22px;height:22px;border-radius:50%;background:var(--polish);border:2px solid rgba(255,255,255,.6);transition:background .5s}
+.mbar .btn{min-height:46px;background:var(--paper);color:var(--text)}
+.rv{opacity:0;transform:translateY(24px)}
+.no-motion .rv{opacity:1;transform:none}
+
+@media (max-width:900px){
+  .nav,.top .btn{display:none}
+  .hero{padding-top:84px;grid-template-columns:minmax(0,1fr)}
+  .shade{position:relative;right:auto;top:auto;text-align:left;margin:0 20px;max-width:none}
+  .shade .cta{justify-content:flex-start}
+  .shade .btn{flex:1}
+  .hero .hand{position:relative;top:auto;left:-6vw;width:118vw;margin:8px 0 -6vw}
+  .bottles{gap:4px;padding:0 10px 104px}
+  .bt{width:14.4vw}
+  .bt span{font-size:11px}
+  .bt[aria-pressed="true"]{transform:translateY(-14px) scale(1.08)}
+  .view2{grid-template-columns:minmax(0,1fr);min-height:0;padding:20px 0 70px;gap:20px}
+  .tophand{width:78%}
+  .shade .cta{flex-direction:column}
+  .sw{display:grid;grid-template-columns:repeat(3,48px);gap:14px 18px}
+  .panel{padding:22px}
+  .panel{max-width:none}
+  .tiles{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .tile{padding:16px}.tile b{font-size:21px}
+  .tile img{height:54%;top:8%;right:14%}
+  .steps{grid-template-columns:minmax(0,1fr)}
+  .book .wrap{grid-template-columns:minmax(0,1fr)}
+  .mbar{display:flex}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+</style>
+</head>
+<body class="no-motion">
+
+<div class="stage" id="stage">
+  <header class="top">
+    <div class="wrap">
+      <a class="logo" href="#hero">ფერი <span class="demo">დემო</span></a>
+      <nav class="nav" aria-label="მთავარი"><a href="#shades">ფერები</a><a href="#steps">ვიზიტი</a><a href="#prices">ფასები</a><a href="#book">კონტაქტი</a></nav>
+      <a class="btn" href="#book">ჩაწერა</a>
+    </div>
+  </header>
+
+  <section class="hero" id="hero">
+    <div class="shade">
+      <p class="k">ფრჩხილის სტუდია · ვაკე, თბილისი <span class="demo">დემო</span></p>
+      <h1 id="sname">მარჯანი</h1>
+      <p id="sdesc">თბილი წითელი ნარინჯისფერი ელფერით. ზაფხულის ფერი, რომელიც ზამთარშიც უხდება.</p>
+      <div class="cta"><a class="btn main" href="#book">ჩაეწერე ამ ფერზე</a><a class="btn ghost" href="#view2">ნახე ზემოდან</a></div>
+    </div>
+    <div class="hand" id="hand" aria-hidden="true"></div>
+    <div class="bottles" id="bottles" role="group" aria-label="აირჩიე ფერი"></div>
+  </section>
+
+  <section class="wrap view2" id="view2">
+    <div class="tophand" id="tophand" aria-hidden="true"></div>
+    <div class="panel rv">
+      <p class="k" style="font:600 12px/1.4 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--soft)">ნახე ხელზე</p>
+      <h2>ფერი ხელზე სხვანაირია, ვიდრე ბოთლში.</h2>
+      <p>დააჭირე ფერს და ნახე, როგორ გამოიყურება ფრჩხილზე. როცა აირჩევ, ჩაწერაში თავად ჩაიწერება.</p>
+      <div class="sw" id="sw" role="group" aria-label="ფერები"></div>
+      <div class="picked"><span>არჩეული: <span id="pname">მარჯანი</span></span><a class="btn" href="#book">ჩაწერა</a></div>
+    </div>
+  </section>
+</div>
+
+<main>
+  <section class="pad" id="shades">
+    <div class="wrap">
+      <div class="head"><p class="label rv">პალიტრა</p><h2 class="rv">ექვსი ფერი ამ სეზონზე. სტუდიაში კიდევ მეტია.</h2><p class="rv">დააჭირე ფერს და გვერდი მასზე გადაეწყობა. <span class="demo">ფერები და სახელები დემოა</span></p></div>
+      <div class="tiles" id="tiles"></div>
+    </div>
+  </section>
+
+  <section class="pad" id="steps" style="background:#F3EBE4">
+    <div class="wrap">
+      <div class="head"><p class="label rv">ვიზიტი</p><h2 class="rv">სამი ნაბიჯი სუფთა შედეგამდე.</h2></div>
+      <div class="steps">
+        <div class="step rv"><h3>მომზადება</h3><p>ფორმის მიცემა, კუტიკულის მოვლა და ფრჩხილის ზედაპირის მომზადება. ყოველ სტუმარზე ახალი, დახურული ინსტრუმენტების ნაკრები იხსნება.</p></div>
+        <div class="step rv"><h3>ფერი</h3><p>ბაზა, ორი ფენა არჩეული ფერი და ზედა ფენა. თუ ადგილზე გადაიფიქრებ, ფერს უფასოდ შევცვლით დაწყებამდე.</p></div>
+        <div class="step rv"><h3>მოვლა</h3><p>ზეთი კუტიკულაზე და რჩევა, როგორ შეინარჩუნო შედეგი. შემდეგი ვიზიტის დროს იქვე ჩაგიწერთ.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pad" id="prices">
+    <div class="wrap">
+      <div class="head"><p class="label rv">ფასები</p><h2 class="rv">ფასი წინასწარ ჩანს.</h2><p class="rv">ყველა ფასი <span class="demo" style="background:#FFE7A8">დემოა</span> და სალონის ფასებით შეიცვლება.</p></div>
+      <div class="price">
+        <div class="rv"><div><b>კლასიკური მანიკური</b><span>ფორმა, კუტიკულა, მოვლა · 40 წუთი</span></div><i>30 ₾</i></div>
+        <div class="rv"><div><b>მანიკური გელ-ლაქით</b><span>მანიკური და ერთი ფერი · 75 წუთი</span></div><i>55 ₾</i></div>
+        <div class="rv"><div><b>პედიკური გელ-ლაქით</b><span>ფეხის მოვლა და ერთი ფერი · 90 წუთი</span></div><i>70 ₾</i></div>
+        <div class="rv"><div><b>დიზაინი</b><span>ნახატი ან ფრენჩი, ერთ ფრჩხილზე</span></div><i>3 ₾-დან</i></div>
+        <div class="rv"><div><b>გელ-ლაქის მოხსნა</b><span>ახალი საფარის გარეშე · 20 წუთი</span></div><i>10 ₾</i></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pad book" id="book">
+    <div class="wrap">
+      <div>
+        <p class="label rv" style="color:#F7B7A6">ჩაწერა</p>
+        <h2 class="rv">აირჩიე დრო. ფერი უკვე არჩეული გაქვს.</h2>
+        <p class="rv">დადასტურებას სამუშაო საათებში მოგწერთ. ღამით დატოვებულ მოთხოვნას დილით ვუპასუხებთ.</p>
+      </div>
+      <form class="rv" id="form" novalidate>
+        <div class="chosen"><i></i><span>არჩეული ფერი: <b id="fname">მარჯანი</b></span></div>
+        <label>სახელი<input name="name" autocomplete="given-name" placeholder="მაგ. ნინო"></label>
+        <label>ტელეფონი<input name="tel" inputmode="tel" autocomplete="tel" placeholder="5XX XX XX XX"></label>
+        <div class="row">
+          <label>მომსახურება<select name="svc"><option>მანიკური გელ-ლაქით</option><option>კლასიკური მანიკური</option><option>პედიკური გელ-ლაქით</option><option>დიზაინი</option></select></label>
+          <label>როდის<select name="when"><option>რაც შეიძლება მალე</option><option>ამ კვირაში</option><option>შაბათ-კვირას</option></select></label>
+        </div>
+        <button class="btn" type="submit">დაჯავშნე ვიზიტი</button>
+        <p class="done">დემო: მოთხოვნა არსად გაიგზავნა. ნამდვილ საიტზე ის სალონის ადმინისტრატორს მიუვა, არჩეული ფერით.</p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap">© 2026 ფერი · სადემონსტრაციო საიტი გამოგონილი სტუდიისთვის. ფოტოები AI-ით არის გენერირებული, ფასები და პირობები ნიმუშია.</div></footer>
+<div class="mbar"><div class="c"><i></i><span id="mname">მარჯანი</span></div><a class="btn" href="#book">ჩაწერა</a></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+(function(){
+  /* one list drives the whole page: change it per salon */
+  const SHADES = [
+    {k:'nude',      n:'ნუდი',     bg:'#F1CDB0', bg2:'#E6B592', p:'#E2B49A', ink:'#3A2218', d:'კანის ფერთან ახლოს. მოკლე ფრჩხილზე ხელს აგრძელებს და ყველაფერს უხდება.'},
+    {k:'peach',     n:'ატამი',    bg:'#F7B7A6', bg2:'#F09584', p:'#F28F86', ink:'#3D1A16', d:'რბილი ვარდისფერი თბილი ელფერით. ყოველდღიური, მაგრამ შესამჩნევი.'},
+    {k:'coral',     n:'მარჯანი',  bg:'#F58467', bg2:'#EE4E3A', p:'#EE4E3A', ink:'#2A0E0A', d:'თბილი წითელი ნარინჯისფერი ელფერით. ზაფხულის ფერი, რომელიც ზამთარშიც უხდება.'},
+    {k:'cherry',    n:'ალუბალი',  bg:'#E5475B', bg2:'#B5122F', p:'#B5122F', ink:'#FFF3F0', d:'კლასიკური მუქი წითელი. თუ ერთ ფერზე უნდა შეჩერდე, ეს არის.'},
+    {k:'raspberry', n:'ჟოლო',     bg:'#EE478C', bg2:'#D21A66', p:'#D21A66', ink:'#FFF1F6', d:'მკვეთრი ვარდისფერი. ფოტოზე ყველაზე კარგად ეს ჩანს.'},
+    {k:'plum',      n:'ქლიავი',   bg:'#93407F', bg2:'#5B1E4D', p:'#5B1E4D', ink:'#FBEFF8', d:'ღრმა მუქი იისფერი. საღამოს ფერი, მოკლე ფრჩხილზე განსაკუთრებით.'}
+  ];
+  const $ = s => document.querySelector(s), root = document.documentElement.style;
+  const hand = $('#hand'), top2 = $('#tophand'), bottles = $('#bottles'), sw = $('#sw'), tiles = $('#tiles');
+  function hexa(h, a){ const n = parseInt(h.slice(1), 16); return `rgba(${n >> 16},${n >> 8 & 255},${n & 255},${a})`; }
+  SHADES.forEach((s, i) => {
+    hand.insertAdjacentHTML('beforeend', `<img src="assets/hand-side-${s.k}.webp" alt="" decoding="async">`);
+    top2.insertAdjacentHTML('beforeend', `<img src="assets/hand-top-${s.k}.webp" alt="" loading="lazy" decoding="async">`);
+    bottles.insertAdjacentHTML('beforeend', `<button class="bt" type="button" data-i="${i}" aria-pressed="false"><img src="assets/bottle-${s.k}.webp" alt="" width="520" height="696"><span>${s.n}</span></button>`);
+    sw.insertAdjacentHTML('beforeend', `<button type="button" data-i="${i}" aria-pressed="false" aria-label="${s.n}" style="background:${s.p}"></button>`);
+    tiles.insertAdjacentHTML('beforeend', `<button class="tile rv" type="button" data-i="${i}" style="background:linear-gradient(160deg,${s.bg},${s.bg2});color:${s.ink}"><img src="assets/bottle-${s.k}.webp" alt="" loading="lazy"><b>${s.n}</b><small>ნახე ხელზე</small></button>`);
+  });
+  let cur = -1;
+  function pick(i, scroll){
+    if (i === cur) { if (scroll) $('#hero').scrollIntoView({behavior:'smooth'}); return; }
+    cur = i; const s = SHADES[i];
+    root.setProperty('--bg', s.bg); root.setProperty('--bg2', s.bg2); root.setProperty('--polish', s.p);
+    root.setProperty('--ink', s.ink); root.setProperty('--soft', hexa(s.ink, .68)); root.setProperty('--line', hexa(s.ink, .2));
+    [hand, top2].forEach(el => [...el.children].forEach((im, k) => im.classList.toggle('on', k === i)));
+    document.querySelectorAll('[data-i]').forEach(b => b.setAttribute('aria-pressed', +b.dataset.i === i));
+    ['#pname', '#fname', '#mname'].forEach(q => $(q).textContent = s.n);
+    const h = $('#sname'), d = $('#sdesc');
+    if (window.gsap && !reduce){ gsap.fromTo([h, d], {opacity:0, y:18}, {opacity:1, y:0, duration:.5, stagger:.06, ease:'power3.out', onStart(){ h.textContent = s.n; d.textContent = s.d; }}); }
+    else { h.textContent = s.n; d.textContent = s.d; }
+    if (scroll) $('#hero').scrollIntoView({behavior:'smooth'});
+  }
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches || /[?&]static\b/.test(location.search), mobile = matchMedia('(max-width: 900px)').matches;
+  document.addEventListener('click', e => { const b = e.target.closest('[data-i]'); if (b) pick(+b.dataset.i, b.classList.contains('tile')); });
+  pick(2);
+
+  const form = $('#form');
+  form.addEventListener('submit', e => { e.preventDefault(); form.classList.add('sent'); });
+
+  if (reduce || !window.gsap || !window.ScrollTrigger) return;
+  gsap.registerPlugin(ScrollTrigger); document.body.classList.remove('no-motion');
+  if (window.Lenis && !mobile){ const lenis = new Lenis({duration:1.1, smoothWheel:true}); lenis.on('scroll', ScrollTrigger.update); gsap.ticker.add(t => lenis.raf(t * 1000)); gsap.ticker.lagSmoothing(0);
+    document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', e => { const t = document.querySelector(a.getAttribute('href')); if (t){ e.preventDefault(); lenis.scrollTo(t); } })); }
+  /* one orchestrated entrance */
+  const intro = gsap.timeline({defaults:{ease:'expo.out'}})
+    .from('#hand', {xPercent:-40, opacity:0, duration:1.4}, 0)
+    .from('.shade > *', {y:30, opacity:0, duration:1, stagger:.08}, .25)
+    .from('.bt', {y:120, opacity:0, duration:1, stagger:.07}, .45);
+  setTimeout(() => { if (intro.progress() < 1) intro.progress(1); }, 4000);
+  gsap.utils.toArray('.rv').forEach(el => gsap.to(el, {opacity:1, y:0, duration:.9, ease:'power3.out', scrollTrigger:{trigger:el, start:'top 90%'}}));
+  setTimeout(() => document.querySelectorAll('.rv').forEach(el => { const r = el.getBoundingClientRect(); if (r.top < innerHeight && getComputedStyle(el).opacity < .05) gsap.set(el, {opacity:1, y:0}); }), 3500);
+  /* depth: the hand drifts as you leave the hero, the second hand rises into place */
+  if (!mobile) gsap.to('#hand', {yPercent:-14, xPercent:-6, ease:'none', scrollTrigger:{trigger:'#hero', start:'top top', end:'bottom top', scrub:1}});
+  gsap.from('#tophand', {yPercent:-6, rotate:-4, ease:'none', scrollTrigger:{trigger:'#view2', start:'top bottom', end:'center center', scrub:1}});
+})();
+</script>
+</body>
+</html>
